@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARRAKIS: El Desierto Viviente - Manual del Jugador</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --gold: #C2A66B;
+            --gold-dark: #8B7355;
+            --gold-light: #E5D4B8;
+            --gold-glow: #FFD700;
+            --blue-spice: #4A90D9;
+            --blue-dark: #2E5A8C;
+            --red-alert: #D94A4A;
+            --red-dark: #8B2A2A;
+            --white: #FFFFFF;
+            --white-dim: #B8B8B8;
+            --black: #080808;
+            --black-bg: #0A0A0A;
+            --black-light: #151515;
+            --black-lighter: #1E1E1E;
+            --sand: #C2B280;
+        }
+        
+        * {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.7;
+            font-size: 11pt;
+        }
+        
+        /* Page A4 */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            max-height: 297mm;
+            background: linear-gradient(135deg, var(--black-bg) 0%, var(--black) 50%, var(--black-light) 100%);
+            margin: 0 auto;
+            padding: 12mm 14mm;
+            page-break-after: always;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid var(--gold-dark);
+            box-shadow: 0 0 50px rgba(194, 166, 107, 0.15);
+        }
+        
+        /* Corner decorations */
+        .page::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 1px solid var(--gold-dark);
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        
+        .page::after {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            border: 1px solid var(--gold-dark);
+            pointer-events: none;
+            opacity: 0.3;
+        }
+        
+        /* PORTADA - Portada stylada */
+        .cover-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: 
+                radial-gradient(ellipse at 30% 20%, rgba(74, 144, 217, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(194, 166, 107, 0.1) 0%, transparent 40%),
+                linear-gradient(180deg, var(--black-bg) 0%, var(--black) 100%);
+            position: relative;
+        }
+        
+        .cover-page::before {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><pattern id="sand" patternUnits="userSpaceOnUse" width="30" height="30"><path d="M0 15 Q7.5 10 15 15 T30 15" stroke="%23C2A66B" fill="none" opacity="0.08"/><path d="M0 25 Q7.5 20 15 25 T30 25" stroke="%23C2A66B" fill="none" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23sand)"/></svg>');
+            opacity: 0.5;
+        }
+        
+        .logo-container {
+            width: 85%;
+            max-width: 500px;
+            padding: 25px 40px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 50%, var(--gold) 100%);
+            border: 4px solid var(--gold-light);
+            box-shadow: 
+                0 0 40px rgba(194, 166, 107, 0.5),
+                inset 0 0 30px rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .logo-container::before {
+            content: '◆';
+            position: absolute;
+            top: 50%;
+            left: -15px;
+            transform: translateY(-50%);
+            color: var(--gold);
+            font-size: 20px;
+            background: var(--black);
+            padding: 5px;
+        }
+        
+        .logo-container::after {
+            content: '◆';
+            position: absolute;
+            top: 50%;
+            right: -15px;
+            transform: translateY(-50%);
+            color: var(--gold);
+            font-size: 20px;
+            background: var(--black);
+            padding: 5px;
+        }
+        
+        .cover-logo {
+            font-family: 'Cinzel', serif;
+            font-size: 48px;
+            color: var(--black);
+            text-transform: uppercase;
+            letter-spacing: 12px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3);
+        }
+        
+        .cover-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            color: var(--gold);
+            letter-spacing: 8px;
+            margin-top: 10px;
+        }
+        
+        .cover-tagline {
+            font-size: 14px;
+            color: var(--white-dim);
+            font-style: italic;
+            margin-top: 30px;
+        }
+        
+        /* IMAGENES - Clickable Google Images links */
+        .image-box {
+            background: linear-gradient(145deg, var(--black-lighter) 0%, var(--black-light) 100%);
+            border: 2px solid var(--gold-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 15px;
+            position: relative;
+            transition: all 0.3s ease;
+            min-height: 80px;
+            text-decoration: none;
+        }
+        
+        .image-box:hover {
+            border-color: var(--gold-glow);
+            box-shadow: 0 0 20px rgba(194, 166, 107, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .image-box a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 10px;
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .image-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .image-label {
+            font-size: 9px;
+            color: var(--white-dim);
+        }
+        
+        .image-search {
+            font-size: 8px;
+            color: var(--gold);
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+        
+        .image-search::before {
+            content: '🔍 ';
+        }
+        
+        /* HEADERS stylados */
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 22px;
+            color: var(--gold);
+            text-align: center;
+            margin: 25px 0 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 12px;
+            position: relative;
+        }
+        
+        h1::before,
+        h1::after {
+            content: '◆';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gold-dark);
+            font-size: 10px;
+        }
+        
+        h1::before { left: 20%; }
+        h1::after { right: 20%; }
+        
+        h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            color: var(--gold-light);
+            margin: 18px 0 12px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-left: 4px solid var(--gold);
+            padding-left: 12px;
+            font-weight: 600;
+        }
+        
+        h3 {
+            font-size: 11px;
+            color: var(--gold);
+            margin: 14px 0 8px 0;
+            font-weight: 600;
+        }
+        
+        /* TEXTOS */
+        p {
+            font-size: 10px;
+            margin-bottom: 8px;
+            text-align: justify;
+            color: var(--white-dim);
+            line-height: 1.6;
+        }
+        
+        /* LISTAS */
+        ul, ol {
+            margin: 6px 0 10px 20px;
+            font-size: 10px;
+            color: var(--white-dim);
+        }
+        
+        li {
+            margin-bottom: 4px;
+        }
+        
+        /* TABLAS styladas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 9px;
+        }
+        
+        th {
+            background: linear-gradient(180deg, var(--gold-dark) 0%, var(--gold) 100%);
+            color: var(--black);
+            padding: 6px 8px;
+            text-align: left;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 8px;
+            letter-spacing: 1px;
+        }
+        
+        td {
+            padding: 5px 8px;
+            border-bottom: 1px solid var(--gold-dark);
+            color: var(--white-dim);
+        }
+        
+        tr:nth-child(even) {
+            background: rgba(30, 30, 30, 0.5);
+        }
+        
+        tr:hover {
+            background: rgba(194, 166, 107, 0.1);
+        }
+        
+        /* INDICE */
+        .toc {
+            column-count: 2;
+            column-gap: 25px;
+            column-rule: 1px solid var(--gold-dark);
+        }
+        
+        .toc-section {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 10px;
+            margin-top: 12px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+            font-size: 9px;
+            border-bottom: 1px dotted var(--gold-dark);
+        }
+        
+        .toc-page {
+            color: var(--white-dim);
+        }
+        
+        /* CAJAS de aviso */
+        .box {
+            background: linear-gradient(145deg, var(--black-light) 0%, var(--black-lighter) 100%);
+            border: 2px solid var(--gold-dark);
+            padding: 10px 12px;
+            margin: 10px 0;
+            position: relative;
+        }
+        
+        .box::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            height: 3px;
+            background: var(--gold-dark);
+        }
+        
+        .box-warning {
+            border-color: var(--red-dark);
+            background: linear-gradient(145deg, rgba(139, 42, 42, 0.2) 0%, rgba(217, 74, 74, 0.1) 100%);
+        }
+        
+        .box-warning::before {
+            background: var(--red-alert);
+        }
+        
+        .box-success {
+            border-color: var(--gold);
+            background: linear-gradient(145deg, rgba(194, 166, 107, 0.15) 0%, rgba(194, 166, 107, 0.05) 100%);
+        }
+        
+        .box-success::before {
+            background: var(--gold);
+        }
+        
+        .box-title {
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 6px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* GRIDS */
+        .grid { display: grid; gap: 10px; }
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+        .grid-5 { grid-template-columns: 1fr 1fr 1fr 1fr 1fr; }
+        
+        /* FASES */
+        .phase {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            background: var(--black-lighter);
+            border-left: 3px solid var(--gold);
+            margin-bottom: 6px;
+        }
+        
+        .phase-number {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border-radius: 50%;
+            font-size: 11px;
+        }
+        
+        .phase-title {
+            font-weight: 600;
+            color: var(--gold-light);
+            font-size: 10px;
+        }
+        
+        .phase-subtitle {
+            font-size: 8px;
+            color: var(--white-dim);
+        }
+        
+        /* RECURSOS */
+        .resource {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: var(--black-lighter);
+            border-radius: 4px;
+            margin-bottom: 6px;
+            border: 1px solid var(--gold-dark);
+        }
+        
+        .resource-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+        
+        .resource-name {
+            font-weight: 700;
+            color: var(--gold-light);
+            font-size: 10px;
+        }
+        
+        .resource-detail {
+            font-size: 8px;
+            color: var(--white-dim);
+        }
+        
+        /* EVENTOS */
+        .event {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 8px;
+            background: var(--black-lighter);
+            border-radius: 4px;
+            margin-bottom: 4px;
+            border: 1px solid var(--gold-dark);
+        }
+        
+        .event-icon {
+            font-size: 16px;
+            width: 30px;
+            text-align: center;
+        }
+        
+        .event-name {
+            font-weight: 600;
+            color: var(--gold-light);
+            font-size: 9px;
+        }
+        
+        .event-prob {
+            font-size: 8px;
+            color: var(--white-dim);
+        }
+        
+        /* SEPARADOR */
+        .separator {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+            margin: 15px 0;
+        }
+        
+        /* FOOTER */
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            left: 14mm;
+            right: 14mm;
+            display: flex;
+            justify-content: space-between;
+            font-size: 8px;
+            color: var(--white-dim);
+            border-top: 1px solid var(--gold-dark);
+            padding-top: 5px;
+        }
+        
+        .footer-page {
+            font-size: 9px;
+            color: var(--gold);
+        }
+        
+        /* HUD Reference box */
+        .hud-reference {
+            background: var(--black-light);
+            border: 2px solid var(--gold-dark);
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .hud-title {
+            color: var(--gold);
+            font-size: 11px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        /* Print */
+        @media print {
+            .page { margin: 0; border: none; }
+            body { background: white; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- PAGINA 1: PORTADA -->
+<div class="page cover-page">
+    <div class="logo-container">
+        <div class="cover-logo">ARRRAKIS</div>
+    </div>
+    <div class="cover-subtitle">EL DESIERTO VIVIENTE</div>
+    <p class="cover-tagline">"No existe el crecimiento sin riesgo"</p>
+    
+    <div class="image-box" style="width: 70%; height: 100px; margin-top: 25px;">
+        <a href="https://www.google.com/search?q=Arrakis+game+logo+Dune+desert+style+fantasy&tbm=isch" target="_blank"></a>
+        <div class="image-icon">🏜️</div>
+        <div class="image-label">[IMAGEN:1] Logo del juego</div>
+        <div class="image-search">Clic para buscar en Google Images</div>
+    </div>
+    
+    <p style="font-size: 12px; margin-top: 30px; color: var(--white-dim);">MANUAL DEL JUGADOR</p>
+    <p style="font-size: 10px; color: var(--gold);">VERSION 1.0</p>
+    
+    <div class="image-box" style="width: 80%; height: 80px; margin-top: 15px;">
+        <a href="https://www.google.com/search?q=futuristic+desert+oasis+isometric+game+art&tbm=isch" target="_blank"></a>
+        <div class="image-icon">🗺️</div>
+        <div class="image-label">[IMAGEN:2] Vista de Arrakis</div>
+        <div class="image-search">Clic para buscar</div>
+    </div>
+    
+    <div class="footer">
+        <span>House Productions</span>
+        <span>2025</span>
+    </div>
+</div>
+
+<!-- PAGINA 2: INDICE -->
+<div class="page">
+    <h1>Indice</h1>
+    
+    <div class="toc">
+        <div class="toc-section">Seccion 1: Introduccion</div>
+        <div class="toc-item"><span>1.1 Arrakis: El Desierto Viviente</span><span class="toc-page">1</span></div>
+        <div class="toc-item"><span>1.2 El Rol de una Casa Menor</span><span class="toc-page">1</span></div>
+        <div class="toc-item"><span>1.3 Objetivo del Juego</span><span class="toc-page">2</span></div>
+        <div class="toc-item"><span>1.4 Naturaleza de la Experiencia</span><span class="toc-page">2</span></div>
+        
+        <div class="toc-section">Seccion 2: Fundamentos de Juego</div>
+        <div class="toc-item"><span>2.1 Estructura General</span><span class="toc-page">3</span></div>
+        <div class="toc-item"><span>2.2 Flujo de una Partida</span><span class="toc-page">3</span></div>
+        <div class="toc-item"><span>2.3 Condiciones de Victoria y Derrota</span><span class="toc-page">4</span></div>
+        <div class="toc-item"><span>2.4 Flujo de una Ronda</span><span class="toc-page">4</span></div>
+        <div class="toc-item"><span>2.5 Principios de Diseno del Sistema</span><span class="toc-page">5</span></div>
+        <div class="toc-item"><span>2.6 Naturaleza del Control</span><span class="toc-page">5</span></div>
+        
+        <div class="toc-section">Seccion 3: Sistema de Recursos</div>
+        <div class="toc-item"><span>3.1 Vision General</span><span class="toc-page">6</span></div>
+        <div class="toc-item"><span>3.2 Especia (Melange)</span><span class="toc-page">6</span></div>
+        <div class="toc-item"><span>3.3 Solaris</span><span class="toc-page">6</span></div>
+        <div class="toc-item"><span>3.4 Agua</span><span class="toc-page">7</span></div>
+        <div class="toc-item"><span>3.5 Materiales</span><span class="toc-page">7</span></div>
+        <div class="toc-item"><span>3.6 Conocimiento</span><span class="toc-page">7</span></div>
+        <div class="toc-item"><span>3.7 Almacenamiento</span><span class="toc-page">7</span></div>
+        <div class="toc-item"><span>3.8 Interdependencia</span><span class="toc-page">8</span></div>
+        <div class="toc-item"><span>3.9 Principio Operativo</span><span class="toc-page">8</span></div>
+        
+        <div class="toc-section">Seccion 4: Produccion y Economia</div>
+        <div class="toc-item"><span>4.1 Cadena de Produccion</span><span class="toc-page">9</span></div>
+        <div class="toc-item"><span>4.2 Extraccion</span><span class="toc-page">9</span></div>
+        <div class="toc-item"><span>4.3 Procesamiento</span><span class="toc-page">9</span></div>
+        <div class="toc-item"><span>4.4 Almacenamiento</span><span class="toc-page">10</span></div>
+        <div class="toc-item"><span>4.5 Mantenimiento</span><span class="toc-page">10</span></div>
+        <div class="toc-item"><span>4.6 Eficiencia</span><span class="toc-page">10</span></div>
+        
+        <div class="toc-section">Seccion 5: Exploracion y Control</div>
+        <div class="toc-item"><span>5.1 El Sector de Arrakis</span><span class="toc-page">11</span></div>
+        <div class="toc-item"><span>5.2 Informacion Inicial</span><span class="toc-page">11</span></div>
+        <div class="toc-item"><span>5.3 Acciones de Exploracion</span><span class="toc-page">11</span></div>
+        <div class="toc-item"><span>5.4 Tipos de Terreno</span><span class="toc-page">12</span></div>
+        <div class="toc-item"><span>5.5 Colocacion de Instalaciones</span><span class="toc-page">12</span></div>
+        <div class="toc-item"><span>5.6 Relacion Exploracion-Produccion</span><span class="toc-page">12</span></div>
+        <div class="toc-item"><span>5.7 Riesgo Ambiental</span><span class="toc-page">13</span></div>
+        
+        <div class="toc-section">Seccion 6: Instalaciones</div>
+        <div class="toc-item"><span>6.1 Rol de las Instalaciones</span><span class="toc-page">13</span></div>
+        <div class="toc-item"><span>6.2 Tipos de Instalaciones</span><span class="toc-page">13</span></div>
+        <div class="toc-item"><span>6.3 Costes y Requisitos</span><span class="toc-page">14</span></div>
+        <div class="toc-item"><span>6.4 Produccion Base</span><span class="toc-page">14</span></div>
+        <div class="toc-item"><span>6.5 Mantenimiento</span><span class="toc-page">15</span></div>
+        <div class="toc-item"><span>6.6 Eficiencia Operativa</span><span class="toc-page">15</span></div>
+    </div>
+    
+    <div class="footer">
+        <span>ARRAKIS - Manual del Jugador</span>
+        <span class="footer-page">2</span>
+    </div>
+</div>
+
+<!-- PAGINA 3: INDICE CONTINUA -->
+<div class="page">
+    <h1 style="font-size: 18px;">Indice (continuacion)</h1>
+    
+    <div class="toc">
+        <div class="toc-section">Seccion 7: Sistema de Rondas</div>
+        <div class="toc-item"><span>7.1 Estructura de una Ronda</span><span class="toc-page">15</span></div>
+        <div class="toc-item"><span>7.2 Fase 1 - Eventos</span><span class="toc-page">15</span></div>
+        <div class="toc-item"><span>7.3 Fase 2 - Produccion</span><span class="toc-page">16</span></div>
+        <div class="toc-item"><span>7.4 Fase 3 - Decisiones</span><span class="toc-page">16</span></div>
+        <div class="toc-item"><span>7.5 Fase 4 - Resultados</span><span class="toc-page">16</span></div>
+        <div class="toc-item"><span>7.6 Duracion de la Partida</span><span class="toc-page">17</span></div>
+        <div class="toc-item"><span>7.7 Escalado de Dificultad</span><span class="toc-page">17</span></div>
+        
+        <div class="toc-section">Seccion 8: Eventos y Riesgos</div>
+        <div class="toc-item"><span>8.1 Naturaleza de los Eventos</span><span class="toc-page">17</span></div>
+        <div class="toc-item"><span>8.2 Tipos de Eventos</span><span class="toc-page">18</span></div>
+        <div class="toc-item"><span>8.3 Probabilidades</span><span class="toc-page">18</span></div>
+        <div class="toc-item"><span>8.4 Impacto Sistemico</span><span class="toc-page">18</span></div>
+        <div class="toc-item"><span>8.5 Eventos Encadenados</span><span class="toc-page">19</span></div>
+        <div class="toc-item"><span>8.6 Riesgo vs Oportunidad</span><span class="toc-page">19</span></div>
+        <div class="toc-item"><span>8.7 Gestion del Riesgo</span><span class="toc-page">19</span></div>
+        
+        <div class="toc-section">Seccion 9: Interfaz de Usuario</div>
+        <div class="toc-item"><span>9.1 Principios de Interfaz</span><span class="toc-page">20</span></div>
+        <div class="toc-item"><span>9.2 HUD Principal</span><span class="toc-page">20</span></div>
+        <div class="toc-item"><span>9.3 Pantalla de Construccion</span><span class="toc-page">20</span></div>
+        <div class="toc-item"><span>9.4 Flujo Visual de Ronda</span><span class="toc-page">21</span></div>
+        <div class="toc-item"><span>9.5 Navegacion</span><span class="toc-page">21</span></div>
+        
+        <div class="toc-section">Seccion 10: Estrategia y Consejos</div>
+        <div class="toc-item"><span>10.1 Principio General</span><span class="toc-page">21</span></div>
+        <div class="toc-item"><span>10.2 Gestion de Recursos</span><span class="toc-page">21</span></div>
+        <div class="toc-item"><span>10.3 Optimizacion de Produccion</span><span class="toc-page">22</span></div>
+        <div class="toc-item"><span>10.4 Exploracion Estrategica</span><span class="toc-page">22</span></div>
+        <div class="toc-item"><span>10.5 Gestion del Riesgo</span><span class="toc-page">22</span></div>
+        <div class="toc-item"><span>10.6 Ritmo de Expansion</span><span class="toc-page">23</span></div>
+        <div class="toc-item"><span>10.7 Uso de Eventos</span><span class="toc-page">23</span></div>
+        <div class="toc-item"><span>10.8 Gestion del Tiempo</span><span class="toc-page">23</span></div>
+        <div class="toc-item"><span>10.9 Errores Comunes</span><span class="toc-page">24</span></div>
+        <div class="toc-item"><span>10.10 Principio Final</span><span class="toc-page">24</span></div>
+        
+        <div class="toc-section">Seccion 11: Anexos</div>
+        <div class="toc-item"><span>11.1 Tablas de Produccion Base</span><span class="toc-page">24</span></div>
+        <div class="toc-item"><span>11.2 Costes de Construccion</span><span class="toc-page">25</span></div>
+        <div class="toc-item"><span>11.3 Capacidades de Almacenamiento</span><span class="toc-page">25</span></div>
+        <div class="toc-item"><span>11.4 Probabilidades de Eventos</span><span class="toc-page">25</span></div>
+        <div class="toc-item"><span>11.5 Consumo de Agua</span><span class="toc-page">26</span></div>
+        <div class="toc-item"><span>11.6 Modelo de Especia</span><span class="toc-page">26</span></div>
+    </div>
+    
+    <div class="footer">
+        <span>ARRAKIS - Manual del Jugador</span>
+        <span class="footer-page">3</span>
+    </div>
+</div>
+
+<!-- PAGINA 4: SECCION 1 -->
+<div class="page">
+    <h1>Seccion 1: Introduccion</h1>
+    
+    <h2>1.1 Arrakis: El Desierto Viviente</h2>
+    <div class="grid grid-2">
+        <div>
+            <p>Arrakis no es un mundo. Es una prueba.</p>
+            <p>Un oceano de arena donde cada decision tiene peso y cada error se paga en recursos, tiempo... o supervivencia.</p>
+            <p>Bajo la superficie del desierto se gesta el recurso mas valioso del universo conocido: la especia. Su presencia define el equilibrio de poder, su escasez genera conflicto, y su control determina el destino de las Casas.</p>
+            <p>Pero la especia no pertenece a nadie. El desierto la concede... o la arrebata.</p>
+            <p>Tormentas que borran enclaves enteros. Criaturas colosales que emergen sin aviso. Un entorno donde el agua es mas valiosa que cualquier moneda. En Arrakis, sobrevivir ya es una forma de victoria.</p>
+        </div>
+        <div class="image-box" style="height: 130px;">
+            <a href="https://www.google.com/search&q=sandstorm+desert+with+giant+worm+fantasy+art&tbm=isch" target="_blank"></a>
+            <div class="image-icon">🌪️</div>
+            <div class="image-label">[IMAGEN:5] Arrakis - Tormenta</div>
+            <div class="image-search">Clic para buscar</div>
+        </div>
+    </div>
+    
+    <h2>1.2 El Rol de una Casa Menor</h2>
+    <div class="grid grid-2">
+        <div>
+            <p>Has sido asignado a un sector de Arrakis como lider de una Casa Menor.</p>
+            <p>Tu posicion es precaria. No controlas el planeta. No dictas las reglas del Imperio.</p>
+            <p>Desde este enclave deberas:</p>
+            <ul>
+                <li>Extraer recursos en condiciones hostiles</li>
+                <li>Construir infraestructuras eficientes</li>
+                <li>Gestionar el equilibrio entre produccion y supervivenci</li>
+                <li>Responder a eventos impredecibles</li>
+                <li>Aprovechar oportunidades</li>
+            </ul>
+            <p>No existe el crecimiento sin riesgo.</p>
+        </div>
+        <div class="image-box" style="height: 130px;">
+            <a href="https://www.google.com/search&q=medieval+fortress+desert+outpost+game&tbm=isch" target="_blank"></a>
+            <div class="image-icon">🏰</div>
+            <div class="image-label">[IMAGEN:6] Casa Menor</div>
+            <div class="image-search">Clic para buscar</div>
+        </div>
+    </div>
+    
+    <div class="separator"></div>
+    
+    <h2>1.3 Objetivo del Juego</h2>
+    <div class="grid grid-2">
+        <div>
+            <p>Tu objetivo es cumplir las cuotas de produccion de especia dentro del tiempo limitado de una partida.</p>
+            <p>Para lograrlo:</p>
+            <ul>
+                <li>Desarrollar una red funcional de produccion</li>
+                <li>Mantener el equilibrio entre recursos criticos</li>
+                <li>Adaptarte a eventos dinamicos</li>
+                <li>Optimizar el rendimiento</li>
+            </ul>
+        </div>
+        <div>
+            <div class="box box-warning">
+                <div class="box-title">El juego termina cuando:</div>
+                <ul>
+                    <li>Se alcanza la cuota de especia (VICTORIA)</li>
+                    <li>Bancarrota - Solaris insuficiente</li>
+                    <li>Agua agotada</li>
+                </ul>
+            </div>
+            <div class="image-box" style="height: 50px; margin-top: 8px;">
+                <a href="https://www.google.com/search?q=blue+crystal+spice+gem+game+icon&tbm=isch" target="_blank"></a>
+                <div class="image-search">Icono especia</div>
+            </div>
+        </div>
+    </div>
+    
+    <h2>1.4 Naturaleza de la Experiencia</h2>
+    <p>El sistema ofrece:</p>
+    <ul>
+        <li>Decisiones estrategicas claras, sin microgestion</li>
+        <li>Produccion automatizada basada en planificacion</li>
+        <li>Impacto directo de eventos</li>
+        <li>Partidas en 1-2 horas</li>
+    </ul>
+    <div class="box box-success">
+        <div class="box-title">No se trata de reaccionar.</div>
+        <p>Se trata de anticipar.</p>
+    </div>
+    
+    <div class="footer">
+        <span>ARRAKIS - Manual del Jugador</span>
+        <span class="footer-page">4</span>
+    </div>
+</div>
+
+<!-- PAGINA 5: SECCION 2-3 -->
+<div class="page">
+    <h1>Seccion 2: Fundamentos de Juego</h1>
+    
+    <h2>2.1 Estructura General</h2>
+    <p>En Arrakis, nada ocurre al azar... pero todo es incierto.</p>
+    <p>El juego se organiza en un sistema de rondas secuenciales donde cada ciclo representa una unidad completa de operacion.</p>
+    
+    <div class="image-box" style="height: 100px;">
+        <a href="https://www.google.com/search?q=circular+flowchart+four+steps+diagram&tbm=isch" target="_blank"></a>
+        <div class="image-icon">🔄</div>
+        <div class="image-label">[IMAGEN:9] 4 Fases en circulo</div>
+        <div class="image-search">Clic para buscar diagrama</div>
+    </div>
+    
+    <h2>2.2 Flujo de una Partida</h2>
+    <div class="grid grid-4">
+        <div class="phase">
+            <div class="phase-number">1</div>
+            <div>
+                <div class="phase-title">INICIO</div>
+                <div class="phase-subtitle">Asignacion, recursos</div>
+            </div>
+        </div>
+        <div class="phase">
+            <div class="phase-number">2</div>
+            <div>
+                <div class="phase-title">DESARROLLO</div>
+                <div class="phase-subtitle">Exploracion</div>
+            </div>
+        </div>
+        <div class="phase">
+            <div class="phase-number">3</div>
+            <div>
+                <div class="phase-title">ESCALADA</div>
+                <div class="phase-subtitle">Mas complejidad</div>
+            </div>
+        </div>
+        <div class="phase">
+            <div class="phase-number">4</div>
+            <div>
+                <div class="phase-title">RESOLUCION</div>
+                <div class="phase-subtitle">Victoria/Colapso</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="separator"></div>
+    
+    <h2>2.3 Condiciones de Victoria y Derrota</h2>
+    <div class="grid grid-2">
+        <div class="box box-success">
+            <div class="box-title">VICTORIA</div>
+            <p>Alcanzar la cuota de especia dentro del limite de rondas.</p>
+        </div>
+        <div class="box box-warning">
+            <div class="box-title">DERROTA</div>
+            <ul>
+                <li>Bancarrota</li>
+                <li>Colapso hidrico</li>
+                <li>Sin cuota</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="image-box" style="height: 50px;">
+        <a href="https://www.google.com/search?q=victory+trophy+icon+vs+defeat+skull+icon&tbm=isch" target="_blank"></a>
+        <div class="image-search">Victoria/Derrota icons</div>
+    </div>
+    
+    <h2>2.4 Flujo de una Ronda</h2>
+    <div class="grid grid-4">
+        <div class="phase">
+            <div class="phase-number">1</div>
+            <div class="phase-title">EVENTOS</div>
+        </div>
+        <div class="phase">
+            <div class="phase-number">2</div>
+            <div class="phase-title">PRODUCCION</div>
+        </div>
+        <div class="phase">
+            <div class="phase-number">3</div>
+            <div class="phase-title">DECISIONES</div>
+        </div>
+        <div class="phase">
+            <div class="phase-number">4</div>
+            <div class="phase-title">RESULTADOS</div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <span>ARRAKIS - Manual del Jugador</span>
+        <span class="footer-page">5</span>
+    </div>
+</div>
+
+<!-- PAGINA 6: SECCION 3 -->
+<div class="page">
+    <h1>Seccion 3: Sistema de Recursos</h1>
+    
+    <h2>3.2-3.6 Los Cinco Recursos</h2>
+    <div class="grid grid-2">
+        <div>
+            <div class="resource">
+                <div class="resource-icon">💎</div>
+                <div>
+                    <div class="resource-name">ESPECIA (Melange)</div>
+                    <div class="resource-detail">kg | Nucleo del sistema</div>
+                </div>
+            </div>
+            <div class="resource">
+                <div class="resource-icon">⚡</div>
+                <div>
+                    <div class="resource-name">SOLARIS</div>
+                    <div class="resource-detail">UE | Energia operativa</div>
+                </div>
+            </div>
+            <div class="resource">
+                <div class="resource-icon">💧</div>
+                <div>
+                    <div class="resource-name">AGUA</div>
+                    <div class="resource-detail">l | Recurso critico</div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="resource">
+                <div class="resource-icon">🧱</div>
+                <div>
+                    <div class="resource-name">MATERIALES</div>
+                    <div class="resource-detail">T | Base fisica</div>
+                </div>
+            </div>
+            <div class="resource">
+                <div class="resource-icon">📜</div>
+                <div>
+                    <div class="resource-name">CONOCIMIENTO</div>
+                    <div class="resource-detail">puntos | Estrategico</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="image-box" style="height: 60px;">
+        <a href="https://www.google.com/search?q=blue+crystal+bag+icon+game&tbm=isch" target="_blank"></a>
+        <div class="image-search">Iconos de recursos</div>
+    </div>
+    
+    <h2>3.7 Capacidades</h2>
+    <table>
+        <tr><th>Recurso</th><th>Capacidad Maxima</th></tr>
+        <tr><td>Especia</td><td>100 kg</td></tr>
+        <tr><td>Solaris</td><td>500 UE</td></tr>
+        <tr><td>Agua</td><td>1000 l</td></tr>
+        <tr><td>Materiales</td><td>200 T</td></tr>
+    </table>
+    
+    <h2>3.8 Interdependencia</h2>
+    <div class="image-box" style="height: 80px;">
+        <a href="https://www.google.com/search?q=network+nodes+connection+diagram&tbm=isch" target="_blank"></a>
+        <div class="image-icon">🔗</div>
+        <div class="image-label">[IMAGEN:21] Diagrama de recursos</div>
+        <div class="image-search">Clic para buscar</div>
+    </div>
+    
+    <div class="footer">
+        <span>ARRAKIS - Manual del Jugador</span>
+        <span class="footer-page">6</span>
+    </div>
+</div>
+
+<!-- PAGINA 7: SECCIONES 4-5 -->
+<div class="page">
+    <h1>Seccion 4: Produccion y Economia</h1>
+    
+    <h2>4.2 Extraccion - Instalaciones</h2>
+    <div class="grid grid-4">
+        <div class="image-box" style="height: 70px;">
+            <a href="https://www.google.com/search&q=solar+panel+game+building+icon&tbm=isch" target="_blank"></a>
+            <div class="image-search">Panel Solar</div>
+        </div>
+        <div class="image-box" style="height: 70px;">
+            <a href="https://www.google.com/search&q=wind+trap+desert+machine+game&tbm=isch" target="_blank"></a>
+            <div class="image-search">Windtrap</div>
+        </div>
+        <div class="image-box" style="height: 70px;">
+            <a href="https://www.google.com/search?q=spice+trap+game+building&tbm=isch" target="_blank"></a>
+            <div class="image-search">Trampa Especia</div>
+        </div>
+        <div class="image-box" style="height: 70px;">
+            <a href="https://www.google.com/search&q=mine+ore+game+building&tbm=isch" target="_blank"></a>
+            <div class="image-search">Pozo Materiales</div>
+        </div>
+    </div>
+    
+    <h2>4.3 Procesamiento</h2>
+    <div class="grid grid-3">
+        <div class="image-box" style="height: 70px;">
+            <a href="https://www.google.com/search?q=refinery+factory+icon+game&tbm=isch" target="_blank"></a>
+            <div class="image-search">Refineria</div>
+        </div>
+        <div class="image-box" style="height: 70px;">
+            <a href="https://www.google.com/search&q=distillery+game+building&tbm=isch" target="_blank"></a>
+            <div class="image-search">Destileria</div>
+        </div>
+        <div class="image-box" style="height: 70px;">
+            <a href="https://www.google.com/search&q=workshop+game+building&tbm=isch" target="_blank"></a>
+            <div class="image-search">Taller</div>
+        </div>
+    </div>
+    
+    <h2>4.6 Eficiencia</h2>
+    <div class="image-box" style="height: 60px;">
+        <a href="https://www.google.com/search?q=gauge+meter+semicircle+needle&tbm=isch" target="_blank"></a>
+        <div class="image-icon">📊</div>
+        <div class="image-label">[IMAGEN:26] Medidor de eficiencia</div>
+        <div class="image-search">Clic</div>
+    </div>
+    
+    <div class="separator"></div>
+    
+    <h1>Seccion 5: Exploracion</h1>
+    
+    <h2>5.4 Tipos de Terreno</h2>
+    <div class="grid grid-4">
+        <div class="image-box" style="height: 60px;">
+            <a href="https://www.google.com/search&q=desert+flat+terrain+tile+game&tbm=isch" target="_blank"></a>
+            <div class="image-search">Zona Abierta</div>
+        </div>
+        <div class="image-box" style="height: 60px;">
+            <a href="https://www.google.com/search&q=canyon+gorge+game+tile&tbm=isch" target="_blank"></a>
+            <div class="image-search">Quebrada</div>
+        </div>
+        <div class="image-box" style="height: 60px;">
+            <a href="https://www.google.com/search&q=rock+formation+desert+game&tbm=isch" target="_blank"></a>
+            <div class="image-search">Afloramiento</div>
+        </div>
+        <div class="image-box" style="height: 60px;">
+            <a href="https://www.google.com/search&q=cliff+game+terrain&tbm=isch" target="_blank"></a>
+            <div class="image-search">Acantilado</div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <span>ARRAKIS - Manual del Jugador</span>
+        <span class="footer-page">7</span>
+    </div>
+</div>
+
+<!-- PAGINA 8: SECCION 6-7 -->
+<div class="page">
+    <h1>Seccion 6: Instalaciones</h1>
+    
+    <h2>6.4 Produccion Base</h2>
+    <table>
+        <tr><th>Instalacion</th><th>Recurso</th><th>Prod/Ronda</th><th>Manten.</th></tr>
+        <tr><td>Panel Solar</td><td>Solaris</td><td>10 UE</td><td>2 UE</td></tr>
+        <tr><td>Windtrap</td><td>Agua</td><td>50 l</td><td>5 UE</td></tr>
+        <tr><td>Trampa Especia</td><td>Especia</td><td>15 kg</td><td>10 UE</td></tr>
+        <tr><td>Pozo Materiales</td><td>Materiales</td><td>5 T</td><td>3 UE</td></tr>
+    </table>
+    
+    <h2>6.7 Ciclo de Vida</h2>
+    <div class="grid grid-5">
+        <div class="image-box" style="height: 50px; font-size: 8px;">Construccion</div>
+        <div class="image-box" style="height: 50px; font-size: 8px;">Operativa</div>
+        <div class="image-box" style="height: 50px; font-size: 8px;">Afectada</div>
+        <div class="image-box" style="height: 50px; font-size: 8px;">Mejorada</div>
+        <div class="image-box" style="height: 50px; font-size: 8px;">Destruida</div>
+    </div>
+    
+    <div class="separator"></div>
+    
+    <h1>Seccion 7: Sistema de Rondas</h1>
+    
+    <h2>7.1 Las 4 Fases</h2>
+    <div class="grid grid-4">
+        <div class="phase">
+            <div class="phase-number">1</div>
+            <div class="phase-title">EVENTOS</div>
+        </div>
+        <div class="phase">
+            <div class="phase-number">2</div>
+            <div class="phase-title">PRODUCCION</div>
+        </div>
+        <div class="phase">
+            <div class="phase-number">3</div>
+            <div class="phase-title">DECISIONES</div>
+        </div>
+        <div class="phase">
+            <div class="phase-number">4</div>
+            <div class="phase-title">RESULTADOS</div>
+        </div>
+    </div>
+    
+    <h2>7.6 Duracion</h2>
+    <div class="box">
+        <div class="box-title">12 a 20 RONDAS por partida</div>
+    </div>
+    
+    <div class="footer">
+        <span>ARRAKIS - Manual del Jugador</span>
+        <span class="footer-page">8</span>
+    </div>
+</div>
+
+<!-- PAGINA 9: SECCION 8 -->
+<div class="page">
+    <h1>Seccion 8: Eventos y Riesgos</h1>
+    
+    <h2>8.2 Tipos de Eventos</h2>
+    <table>
+        <tr><th>Evento</th><th>Efecto</th><th>Prob.</th></tr>
+        <tr><td>Tormenta de Arena</td><td>-50% produccion</td><td>15%</td></tr>
+        <tr><td>Gusano Errante</td><td>Puede destruir</td><td>10%</td></tr>
+        <tr><td>Afloramiento</td><td>+especia</td><td>20%</td></tr>
+        <tr><td>Cometa</td><td>+100%</td><td>5%</td></tr>
+        <tr><td>Fallo</td><td>-eficiencia</td><td>10%</td></tr>
+    </table>
+    
+    <div class="image-box" style="height: 70px;">
+        <a href="https://www.google.com/search?q=sandstorm+cloud+fantasy+art&tbm=isch" target="_blank"></a>
+        <div class="image-icon">🌪️</div>
+        <div class="image-label">[IMAGEN:45] Tormenta</div>
+    </div>
+    
+    <h2>8.6 Riesgo vs Oportunidad</h2>
+    <div class="grid grid-2">
+        <div class="box box-warning">
+            <div class="box-title">RIESGO</div>
+            <p>Destruccion, perdida, reduccion</p>
+        </div>
+        <div class="box box-success">
+            <div class="box-title">OPORTUNIDAD</div>
+            <p>Bonificaciones, descubrimientos</p>
+        </div>
+    </div>
+    
+    <h2>8.8 Vulnerabilidad</h2>
+    <p>El sistema se vuelve mas inestable con el crecimiento. Cada nueva instalacion introduce mayor exposicion a eventos.</p>
+    
+    <div class="footer">
+        <span>ARRAKIS - Manual del Jugador</span>
+        <span class="footer-page">9</span>
+    </div>
+</div>
+
+<!-- PAGINA 10: SECCION 9-10 -->
+<div class="page">
+    <h1>Seccion 9: Interfaz de Usuario</h1>
+    
+    <h2>9.2 HUD Principal - IMPORTANTE</h2>
+    <div class="hud-reference">
+        <div class="image-box" style="height: 150px;">
+            <a href="https://www.google.com/search?q=game+HUD+interface+RPG&tbm=isch" target="_blank"></a>
+            <div class="image-icon">🎮</div>
+            <div class="image-label">[IMAGEN:51] HUD COMPLETO</div>
+            <div class="image-search">Esta imagen es CLAVE - buscar "game HUD RPG"</div>
+        </div>
+    </div>
+    
+    <h2>9.3 Pantalla de Construccion</h2>
+    <div class="image-box" style="height: 100px;">
+        <a href="https://www.google.com/search&q=item+grid+selection+game&tbm=isch" target="_blank"></a>
+        <div class="image-icon">🧱</div>
+        <div class="image-label">[IMAGEN:55] Grid de instalaciones</div>
+    </div>
+    
+    <div class="separator"></div>
+    
+    <h1>Seccion 10: Estrategia</h1>
+    
+    <h2>10.2 Gestion de Recursos</h2>
+    <div class="box box-success">
+        <div class="box-title">EQUILIBRIO ANTES QUE VOLUMEN</div>
+        <ul>
+            <li>Exceso sin procesar → perdida</li>
+            <li>Falta de agua → colapso</li>
+            <li>Deficit Solaris → degradacion</li>
+        </ul>
+    </div>
+    
+    <h2>10.5 Gestion del Riesgo</h2>
+    <ul>
+        <li>Mantener reservas de energia</li>
+        <li>No depender de una fuente</li>
+        <li>Distribuir instalaciones</li>
+    </ul>
+    
+    <h2>10.9 Errores Comunes</h2>
+    <ul>
+        <li>Expandirse sin agua segura</li>
+        <li>Ignorar costos de mantenimiento</li>
+        <li>No invertir en almacenamiento</li>
+    </ul>
+    
+    <div class="box box-warning" style="margin-top: 20px;">
+        <div class="box-title">PRINCIPIO FINAL</div>
+        <p style="text-align: center; font-size: 14px; margin-top: 10px;">En Arrakis, el fracaso no es repentino.<br>Es progresivo.</p>
+    </div>
+    
+    <div class="footer">
+        <span>ARRAKIS - Manual del Jugador</span>
+        <span class="footer-page">10</span>
+    </div>
+</div>
+
+<!-- PAGINA 11: ANEXOS -->
+<div class="page">
+    <h1>Seccion 11: Anexos</h1>
+    
+    <h2>11.1 Produccion Base</h2>
+    <table>
+        <tr><th>Instalacion</th><th>Recurso</th><th>Prod/Ronda</th><th>Manten.</th></tr>
+        <tr><td>Panel Solar</td><td>Solaris</td><td>10 UE</td><td>2 UE</td></tr>
+        <tr><td>Windtrap</td><td>Agua</td><td>50 l</td><td>5 UE</td></tr>
+        <tr><td>Trampa Especia</td><td>Especia</td><td>15 kg</td><td>10 UE</td></tr>
+        <tr><td>Pozo Materiales</td><td>Materiales</td><td>5 T</td><td>3 UE</td></tr>
+    </table>
+    
+    <h2>11.2 Costes de Construccion</h2>
+    <table>
+        <tr><th>Instalacion</th><th>Materiales</th><th>Agua</th><th>Tiempo</th></tr>
+        <tr><td>Panel Solar</td><td>20 T</td><td>10 l</td><td>1 ronda</td></tr>
+        <tr><td>Windtrap</td><td>30 T</td><td>50 l</td><td>2 rondas</td></tr>
+        <tr><td>Trampa Especia</td><td>50 T</td><td>100 l</td><td>3 rondas</td></tr>
+        <tr><td>Refineria</td><td>80 T</td><td>200 l</td><td>4 rondas</td></tr>
+    </table>
+    
+    <h2>11.4 Probabilidades</h2>
+    <table>
+        <tr><th>Evento</th><th>Probabilidad</th></tr>
+        <tr><td>Tormenta</td><td>15%</td></tr>
+        <tr><td>Gusano</td><td>10%</td></tr>
+        <tr><td>Afloramiento</td><td>20%</td></tr>
+        <tr><td>Cometa</td><td>5%</td></tr>
+        <tr><td>Fallo</td><td>10%</td></tr>
+    </table>
+    
+    <h2>11.5 Consumo de Agua</h2>
+    <table>
+        <tr><th>Origen</th><th>Consumo</th></tr>
+        <tr><td>Personal</td><td>2 l/unidad</td></tr>
+        <tr><td>Criaturas</td><td>5-20 l/unidad</td></tr>
+        <tr><td>Instalaciones</td><td>10-100 l</td></tr>
+    </table>
+    
+    <div class="separator"></div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <p style="color: var(--gold); font-size: 14px; letter-spacing: 4px;">© 2025 ARRAKIS: EL DESIERTO VIVIENTE</p>
+        <p style="color: var(--white-dim); font-size: 10px; margin-top: 8px;">Un producto de House Productions</p>
+    </div>
+    
+    <div class="image-box" style="height: 50px; margin-top: 20px;">
+        <a href="https://www.google.com/search&q=copyright+footer+template&tbm=isch" target="_blank"></a>
+        <div class="image-search">Creditos finales</div>
+    </div>
+    
+    <div class="footer">
+        <span>ARRAKIS - Manual del Jugador</span>
+        <span class="footer-page">11</span>
+    </div>
+</div>
+
+</body>
+</html>
